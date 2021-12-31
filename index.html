@@ -32,13 +32,14 @@
             <div class="row mr-0">
                 <div id="city-container" class="col-lg-11 card m-3 d-none">
                     <div class="card-body">
-                        <h2 id="searched-city" class="align-middle" style="display: inline-block">City</h2>
-                        <h2 id="date" style="display: inline-block"></h2></h2> <img>
+                        <h2 id="searched-city" class="align-middle">City</h2>
+                        <!-- dont forget this -->
+                        <img>
                         <ul class="list-unstyled">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            <li>Temp: <span id="temp"></span> °F</li>
+                            <li>Wind: <span id="wind"></span> MPH</li>
+                            <li>Humidity: <span id="humidity"></span> %</li>
+                            <li>UV Index: <span id="uv"></span></li>
                         </ul>
                     </div>
                 </div>
@@ -59,7 +60,6 @@
             </div>
         </div>
 </div>
-    
     
 <script src="develop/assets/js/script.js"></script>
 </body>
