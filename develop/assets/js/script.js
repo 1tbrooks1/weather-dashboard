@@ -8,6 +8,12 @@ const tempEl = document.querySelector("#temp");
 const windEl = document.querySelector("#wind");
 const humidityEl = document.querySelector("#humidity");
 const uvEl = document.querySelector("#uv");
+const fiveDayContainer = document.querySelector("#five-day");
+const forecastEls = document.querySelector(".forecast");
+const imgEl = document.querySelector("#img");
+const fiveDayTemp = document.querySelector("#temp-5");
+const fiveDayWind = document.querySelector("#wind-5");
+const fiveDayHumidity = document.querySelector("#humidity-5");
 
 // global variables
 
@@ -23,6 +29,7 @@ function searchCity() {
     localStorage.setItem("search-history", cityName);
 
     getCityUrl(cityName);
+    getFive(cityName);
 }
 
 // grabbing API info from weather site
@@ -96,16 +103,56 @@ function getUvIndex(lat, lon) {
 }
 
 function displayUvIndex(index) {
-    uvEl.textContent = index.current.uvi;
+    uvEl.textContent = index.daily[0].uvi;
+    console.log(uvEl.textContent);
 
-    if (index.current.uvi <= 2) {
-        uvEl.classList = "favorable"
-    } else if (index.current.uvi >2 && index.current.uvi <= 8) {
-        uvEl.classList = "moderate"
-    } else (index.current.uvi > 8); {
-        uvEl.classList = "severe"
+    if (index.daily[0].uvi <= 2) {
+        uvEl.classList.add("favorable");
+    } else if (index.daily[0].uvi > 2 && index.current.uvi <= 8) {
+        uvEl.classList.add("moderate");
+     } else if (index.daily[0].uvi > 8); {
+        uvEl.classList.add("severe")
     }
 }
+
+function getFive(city) {
+    const apiKey = "208b86d4af1d114dc52f06c491f0fcd2"
+    let apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey
+
+    // sends request to sever for information
+    fetch(apiUrl).then(function(response) {
+        // if response works then we'll have an array of data
+        if (response.ok) {
+            response.json().then(function(data) {
+                console.log(data);
+                displayFive(data);
+            });
+        // if no then application throws an error message to user 
+        } else {
+            alert("Error: City not found");
+        }
+        
+    });
+
+   function displayFive(city) {
+       console.log(city);
+    /*fiveDayContainer.classList.remove("d-none");
+
+    var currentDate = new Date();
+    var day = currentDate.getDate();
+    var month = currentDate.getMonth() + 1;
+    var year = currentDate.getFullYear();*/
+
+    
+
+    
+
+
+
+
+    }
+}
+   
    
 
 searchBtn.addEventListener("click", searchCity);
