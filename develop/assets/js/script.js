@@ -10,6 +10,7 @@ const humidityEl = document.querySelector("#humidity");
 const uvEl = document.querySelector("#uv");
 const fiveDayContainer = document.querySelector("#five-day");
 const forecastEls = document.querySelector(".forecast");
+const clearBtn = document.querySelector(".clear");
 
 
 // global variables
@@ -131,6 +132,7 @@ function getFive(city) {
         
     });
 
+    // loop goes to next hour instead of next day, also need to fix metric for numbers
    function displayFive(city) {
        console.log(city);
     fiveDayContainer.classList.remove("d-none");
@@ -176,4 +178,9 @@ function getFive(city) {
    
 
 searchBtn.addEventListener("click", searchCity);
+
+clearBtn.addEventListener("click", function() {
+    localStorage.clear();
+})
+
 
