@@ -10,10 +10,7 @@ const humidityEl = document.querySelector("#humidity");
 const uvEl = document.querySelector("#uv");
 const fiveDayContainer = document.querySelector("#five-day");
 const forecastEls = document.querySelector(".forecast");
-const imgEl = document.querySelector("#img");
-const fiveDayTemp = document.querySelector("#temp-5");
-const fiveDayWind = document.querySelector("#wind-5");
-const fiveDayHumidity = document.querySelector("#humidity-5");
+
 
 // global variables
 
@@ -136,12 +133,35 @@ function getFive(city) {
 
    function displayFive(city) {
        console.log(city);
-    /*fiveDayContainer.classList.remove("d-none");
+    fiveDayContainer.classList.remove("d-none");
 
     var currentDate = new Date();
     var day = currentDate.getDate();
     var month = currentDate.getMonth() + 1;
-    var year = currentDate.getFullYear();*/
+    var year = currentDate.getFullYear();
+
+    var forecast = city.list;
+        for (i = 5; i < forecast.length; i=i+8) {
+            var dailyForecast = forecast[i];
+
+            fiveDayDate = document.createElement("h4");
+            fiveDayDate.textContent =" " + "(" + month + "/" + day + "/" + year + ")";
+            forecastEls.append(fiveDayDate);
+
+            // need to dynamically create img
+
+            fiveDayTemp = document.createElement("p")
+            fiveDayTemp.textContent = dailyForecast.main.temp;
+            forecastEls.append(fiveDayTemp);
+
+            fiveDayWind = document.createElement("p");
+            fiveDayWind.textContent = dailyForecast.wind.speed;
+            forecastEls.append(fiveDayWind);
+
+            fiveDayHumidity = document.createElement("p");
+            fiveDayHumidity.textContent = dailyForecast.main.humidity;
+            forecastEls.append(fiveDayHumidity);
+        }
 
     
 
