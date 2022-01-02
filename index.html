@@ -24,8 +24,9 @@
             <div class="input-group-appned">
             <button class="btn btn-primary searchBtn" type="button">Search<i></i></button>
             </div>
-            </div>
-            <button class="btn btn-primary mb-3 clear">Clear History</button>
+            </div class="history-container">
+            <button class="btn btn-primary mb-3 clear clear-history">Clear History</button>
+            <div class="city-button"></div>
             </div>
 
         <div class="col-lg-9">
@@ -33,8 +34,7 @@
                 <div id="city-container" class="col-lg-11 card m-3 d-none">
                     <div class="card-body">
                         <h2 id="searched-city" class="align-middle">City</h2>
-                        <!-- dont forget this -->
-                        <img>
+                        <!-- dont forget this --> <img>
                         <ul class="list-unstyled">
                             <li>Temp: <span id="temp"></span> °F</li>
                             <li>Wind: <span id="wind"></span> MPH</li>
@@ -50,8 +50,8 @@
                     <h3>5-Day Forecast</h3>
                 </div>
             </div>
-                <div class="row">
-                    <div class="col-md-2 m-2 rounded forecast"></div>
+                <div class="row card">
+                    <div class="col-md-2 forecast bg-primary text-white m-2 rounded"></div>
                     <div class="col-md-2 m-2 rounded forecast"></div>
                     <div class="col-md-2 m-2 rounded forecast"></div>
                     <div class="col-md-2 m-2 rounded forecast"></div>

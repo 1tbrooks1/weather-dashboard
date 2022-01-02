@@ -11,6 +11,9 @@ const uvEl = document.querySelector("#uv");
 const fiveDayContainer = document.querySelector("#five-day");
 const forecastEls = document.querySelector(".forecast");
 const clearBtn = document.querySelector(".clear");
+const searchedCity = document.querySelector(".city-button");
+
+
 
 
 // global variables
@@ -28,6 +31,7 @@ function searchCity() {
 
     getCityUrl(cityName);
     getFive(cityName);
+    getHistory(cityName);
 }
 
 // grabbing API info from weather site
@@ -163,17 +167,23 @@ function getFive(city) {
             fiveDayHumidity = document.createElement("p");
             fiveDayHumidity.textContent = dailyForecast.main.humidity;
             forecastEls.append(fiveDayHumidity);
-        }
+        };
+   }
 
-    
+   // not sure why this function isnt working 
+   function getHistory(city) {
+   cityBtnEl = document.createElement("button");
+   cityBtnEl.textContent = ("city");
+   searchedCity.append(cityBtnEl);
 
-    
-
-
-
-
-    }
 }
+
+// getHistory();
+
+}
+    
+
+
    
    
 
