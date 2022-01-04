@@ -12,12 +12,8 @@ const fiveDayContainer = document.querySelector("#five-day");
 const forecastEls = document.querySelector(".forecast");
 const clearBtn = document.querySelector(".clear");
 const searchedCity = document.querySelector(".city-button");
-
-
-
-
-// global variables
-
+const fiveContainer = document.querySelector(".five-container");
+const weatherIcon = document.querySelector(".weather-icon");
 
 
 // function to search for city
@@ -60,6 +56,7 @@ function displayWeatherInfo(weather, city) {
     var day = currentDate.getDate();
     var month = currentDate.getMonth() + 1;
     var year = currentDate.getFullYear();
+    var weatherPic = weather.weather[0].icon;
 
     //console.log(weather);
     // console.log(city);
@@ -75,6 +72,10 @@ function displayWeatherInfo(weather, city) {
     currentDate.textContent =" " + "(" + month + "/" + day + "/" + year + ")";
     cityNameEl.appendChild(currentDate);
 
+    var weatherIcon = document.createElement("img");
+    weatherIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherPic + "@2x.png")
+    cityNameEl.appendChild(weatherIcon);
+
     tempEl.textContent = weather.main.temp;
     windEl.textContent = weather.wind.speed;
     humidityEl.textContent = weather.main.humidity;
@@ -87,7 +88,7 @@ function displayWeatherInfo(weather, city) {
 
 function getUvIndex(lat, lon) {
     const apiKey = "208b86d4af1d114dc52f06c491f0fcd2"
-    let apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey
+    let apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&cnt=1";
 
     // sends request to sever for information
     fetch(apiUrl).then(function(response) {
@@ -108,12 +109,12 @@ function displayUvIndex(index) {
     uvEl.textContent = index.daily[0].uvi;
     console.log(uvEl.textContent);
 
-    if (index.daily[0].uvi <= 2) {
-        uvEl.classList.add("favorable");
-    } else if (index.daily[0].uvi > 2 && index.current.uvi <= 8) {
-        uvEl.classList.add("moderate");
-     } else if (index.daily[0].uvi > 8); {
-        uvEl.classList.add("severe")
+    if (index.daily[0].uvi < 2) {
+        uvEl.setAttribute("class", "favorable");
+    } else if (index.daily[0].uvi < 4) {
+        uvEl.setAttribute("class", "moderate");
+     } else {
+        uvEl.setAttribute("class", "severe");
     }
 }
 
@@ -141,6 +142,7 @@ function getFive(city) {
        console.log(city);
     fiveDayContainer.classList.remove("d-none");
 
+    var weatherPic = city.list[0].weather.icon;
     var currentDate = new Date();
     var day = currentDate.getDate();
     var month = currentDate.getMonth() + 1;
@@ -150,37 +152,48 @@ function getFive(city) {
         for (i = 5; i < forecast.length; i=i+8) {
             var dailyForecast = forecast[i];
 
+            fiveDayDiv = document.createElement("div")
+            fiveDayDiv.classList = "card bg-primary text-light m-2";
+
             fiveDayDate = document.createElement("h4");
             fiveDayDate.textContent =" " + "(" + month + "/" + day + "/" + year + ")";
-            forecastEls.append(fiveDayDate);
-
-            // need to dynamically create img
+            fiveDayDate.classList = "card-header text-center"
+            fiveDayDiv.append(fiveDayDate);
 
             fiveDayTemp = document.createElement("p")
-            fiveDayTemp.textContent = dailyForecast.main.temp;
-            forecastEls.append(fiveDayTemp);
+            fiveDayTemp.textContent = "Temp: " + dailyForecast.main.temp;
+            fiveDayTemp.classList = "card-body text-center"
+            fiveDayDiv.append(fiveDayTemp);
+
+            var weatherIcon = document.createElement("img");
+            weatherIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherPic + "@2x.png")
+            fiveDayDiv.appendChild(weatherIcon);
 
             fiveDayWind = document.createElement("p");
-            fiveDayWind.textContent = dailyForecast.wind.speed;
-            forecastEls.append(fiveDayWind);
+            fiveDayWind.textContent = "Wind: " + dailyForecast.wind.speed + "MPH";
+            fiveDayWind.classList = "card-body text-center"
+            fiveDayDiv.append(fiveDayWind);
 
             fiveDayHumidity = document.createElement("p");
-            fiveDayHumidity.textContent = dailyForecast.main.humidity;
-            forecastEls.append(fiveDayHumidity);
+            fiveDayHumidity.textContent = "Humidity " + dailyForecast.main.humidity + "%";
+            fiveDayHumidity.classList = "card-body text-center"
+            fiveDayDiv.append(fiveDayHumidity);
+
+            fiveContainer.append(fiveDayDiv);
         };
    }
 
    // not sure why this function isnt working 
    function getHistory(city) {
    cityBtnEl = document.createElement("button");
-   cityBtnEl.textContent = ("city");
+   cityBtnEl.textContent = city;
    searchedCity.append(cityBtnEl);
 
-}
+  }
 
-// getHistory();
+ getHistory();
 
-}
+} 
     
 
 
