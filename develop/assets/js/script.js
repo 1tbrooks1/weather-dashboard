@@ -36,6 +36,23 @@ function searchHistory(city) {
     localStorage.setItem("cities", JSON.stringify(cities));
 }
 
+function loadHistory() {
+    let searchedCities = localStorage.getItem("cities");
+    
+    searchedCities = JSON.parse(searchedCities);
+    
+    for (i=0; i < searchedCities.length; i++) {
+        showHistory(searchedCities[i])
+        cities.push(searchedCities[i]);
+    }
+}
+
+function showHistory(city) {
+    let searchedCityEl = document.createElement("button");
+    searchedCityEl.textContent = city;
+    searchedCity.append(searchedCityEl);
+}
+
 
 // grabbing API info from weather site
 function getCityUrl(city) {
@@ -225,7 +242,7 @@ function cityButton(city) {
   searchedCity.append(cityBtnEl);
 }
 
-showHistory();
+loadHistory();
 
 searchBtn.addEventListener("click", formSubmitHandler);
 
