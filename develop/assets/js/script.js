@@ -14,196 +14,221 @@ const clearBtn = document.querySelector(".clear");
 const searchedCity = document.querySelector(".city-button");
 const fiveContainer = document.querySelector(".five-container");
 const weatherIcon = document.querySelector(".weather-icon");
-
+var cities = [];
 
 // function to search for city
-function searchCity() {
-    // console.log(cityInput.value);
-    
-    // variable for city name
-    let cityName = cityInput.value.trim();
+function formSubmitHandler() {
+  // console.log(cityInput.value);
 
-    localStorage.setItem("search-history", cityName);
+  // variable for city name
+  let cityName = cityInput.value.trim();
 
-    getCityUrl(cityName);
-    getFive(cityName);
-    getHistory(cityName);
+  getCityUrl(cityName);
+  getFive(cityName);
+  cityButton(cityName);
+  searchHistory(cityName);
+
+  cityInput.value = "";
 }
+
+function searchHistory(city) {
+    cities.push(city)
+    localStorage.setItem("cities", JSON.stringify(cities));
+}
+
 
 // grabbing API info from weather site
 function getCityUrl(city) {
-    const apiKey = "208b86d4af1d114dc52f06c491f0fcd2"
-    let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey + ""
+  const apiKey = "208b86d4af1d114dc52f06c491f0fcd2";
+  let apiUrl =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city +
+    "&units=imperial&appid=" +
+    apiKey +
+    "";
 
-    // sends request to sever for information
-    fetch(apiUrl).then(function(response) {
-        // if response works then we'll have an array of data
-        if (response.ok) {
-            response.json().then(function(data) {
-                console.log(data);
-                displayWeatherInfo (data, city);
-            });
-        // if no then application throws an error message to user 
-        } else {
-            alert("Error: City not found");
-        }
-    });
+  // sends request to sever for information
+  fetch(apiUrl).then(function (response) {
+    // if response works then we'll have an array of data
+    if (response.ok) {
+      response.json().then(function (data) {
+        console.log(data);
+        displayWeatherInfo(data, city);
+      });
+      // if no then application throws an error message to user
+    } else {
+      alert("Error: City not found");
+    }
+  });
 }
 
 function displayWeatherInfo(weather, city) {
-    // creates variables for current date 
-    var currentDate = new Date();
-    var day = currentDate.getDate();
-    var month = currentDate.getMonth() + 1;
-    var year = currentDate.getFullYear();
-    var weatherPic = weather.weather[0].icon;
+  // creates variables for current date
+  var currentDate = new Date();
+  var day = currentDate.getDate();
+  var month = currentDate.getMonth() + 1;
+  var year = currentDate.getFullYear();
+  var weatherPic = weather.weather[0].icon;
 
-    //console.log(weather);
-    // console.log(city);
+  //console.log(weather);
+  // console.log(city);
 
-    // removes class to show whats in container
-    cityContainer.classList.remove("d-none");
+  // removes class to show whats in container
+  cityContainer.classList.remove("d-none");
 
-    // lists the name of the city that was searched 
-    cityNameEl.textContent = city;
+  // lists the name of the city that was searched
+  cityNameEl.textContent = city;
 
-    // creates span to show the current date
-    var currentDate = document.createElement("span")
-    currentDate.textContent =" " + "(" + month + "/" + day + "/" + year + ")";
-    cityNameEl.appendChild(currentDate);
+  // creates span to show the current date
+  var currentDate = document.createElement("span");
+  currentDate.textContent = " " + "(" + month + "/" + day + "/" + year + ")";
+  cityNameEl.appendChild(currentDate);
 
-    var weatherIcon = document.createElement("img");
-    weatherIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherPic + "@2x.png")
-    cityNameEl.appendChild(weatherIcon);
+  var weatherIcon = document.createElement("img");
+  weatherIcon.setAttribute(
+    "src",
+    "http://openweathermap.org/img/wn/" + weatherPic + "@2x.png"
+  );
+  cityNameEl.appendChild(weatherIcon);
 
-    tempEl.textContent = weather.main.temp;
-    windEl.textContent = weather.wind.speed;
-    humidityEl.textContent = weather.main.humidity;
-    
-    var lat = weather.coord.lat;
-    var lon = weather.coord.lon;
+  tempEl.textContent = weather.main.temp;
+  windEl.textContent = weather.wind.speed;
+  humidityEl.textContent = weather.main.humidity;
 
-    getUvIndex(lat, lon);
+  var lat = weather.coord.lat;
+  var lon = weather.coord.lon;
+
+  getUvIndex(lat, lon);
 }
 
 function getUvIndex(lat, lon) {
-    const apiKey = "208b86d4af1d114dc52f06c491f0fcd2"
-    let apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&cnt=1";
+  const apiKey = "208b86d4af1d114dc52f06c491f0fcd2";
+  let apiUrl =
+    "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=" +
+    apiKey +
+    "&cnt=1";
 
-    // sends request to sever for information
-    fetch(apiUrl).then(function(response) {
-        // if response works then we'll have an array of data
-        if (response.ok) {
-            response.json().then(function(data) {
-                console.log(data);
-                displayUvIndex(data);
-            });
-        // if no then application throws an error message to user 
-        } else {
-            alert("Error: City not found");
-        }
-    });
+  // sends request to sever for information
+  fetch(apiUrl).then(function (response) {
+    // if response works then we'll have an array of data
+    if (response.ok) {
+      response.json().then(function (data) {
+        console.log(data);
+        displayUvIndex(data);
+      });
+      // if no then application throws an error message to user
+    } else {
+      alert("Error: City not found");
+    }
+  });
 }
 
 function displayUvIndex(index) {
-    uvEl.textContent = index.daily[0].uvi;
-    console.log(uvEl.textContent);
+  uvEl.textContent = index.daily[0].uvi;
+  console.log(uvEl.textContent);
 
-    if (index.daily[0].uvi < 2) {
-        uvEl.setAttribute("class", "favorable");
-    } else if (index.daily[0].uvi < 4) {
-        uvEl.setAttribute("class", "moderate");
-     } else {
-        uvEl.setAttribute("class", "severe");
-    }
+  if (index.daily[0].uvi < 2) {
+    uvEl.setAttribute("class", "favorable");
+  } else if (index.daily[0].uvi < 4) {
+    uvEl.setAttribute("class", "moderate");
+  } else {
+    uvEl.setAttribute("class", "severe");
+  }
 }
 
 function getFive(city) {
-    const apiKey = "208b86d4af1d114dc52f06c491f0fcd2"
-    let apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey
+  const apiKey = "208b86d4af1d114dc52f06c491f0fcd2";
+  let apiUrl =
+    "https://api.openweathermap.org/data/2.5/forecast?q=" +
+    city +
+    "&units=imperial&appid=" +
+    apiKey;
 
-    // sends request to sever for information
-    fetch(apiUrl).then(function(response) {
-        // if response works then we'll have an array of data
-        if (response.ok) {
-            response.json().then(function(data) {
-                console.log(data);
-                displayFive(data);
-            });
-        // if no then application throws an error message to user 
-        } else {
-            alert("Error: City not found");
-        }
-        
-    });
+  // sends request to sever for information
+  fetch(apiUrl).then(function (response) {
+    // if response works then we'll have an array of data
+    if (response.ok) {
+      response.json().then(function (data) {
+        console.log(data);
+        displayFive(data);
+      });
+      // if no then application throws an error message to user
+    } else {
+      alert("Error: City not found");
+    }
+  });
 
-    // loop goes to next hour instead of next day, also need to fix metric for numbers
-   function displayFive(city) {
-       console.log(city);
+  // loop goes to next hour instead of next day, also need to fix metric for numbers
+  function displayFive(city) {
     fiveDayContainer.classList.remove("d-none");
-
-    var weatherPic = city.list[0].weather.icon;
-    var currentDate = new Date();
-    var day = currentDate.getDate();
-    var month = currentDate.getMonth() + 1;
-    var year = currentDate.getFullYear();
-
+    fiveContainer.innerHTML = "";
     var forecast = city.list;
-        for (i = 5; i < forecast.length; i=i+8) {
-            var dailyForecast = forecast[i];
 
-            fiveDayDiv = document.createElement("div")
-            fiveDayDiv.classList = "card bg-primary text-light m-2";
+    for (i = 0; i < forecast.length; i = i + 8) {
+      var dailyForecast = forecast[i];
+      var weatherPic = city.list[0].weather[0].icon;
+      console.log(weatherPic);
+      const forecastDate = new Date(dailyForecast.dt * 1000);
+      const forecastDay = forecastDate.getDate();
+      const forecastMonth = forecastDate.getMonth() + 1;
+      const forecastYear = forecastDate.getFullYear();
 
-            fiveDayDate = document.createElement("h4");
-            fiveDayDate.textContent =" " + "(" + month + "/" + day + "/" + year + ")";
-            fiveDayDate.classList = "card-header text-center"
-            fiveDayDiv.append(fiveDayDate);
+      fiveDayDiv = document.createElement("div");
+      fiveDayDiv.classList = "card bg-primary text-light m-2";
 
-            fiveDayTemp = document.createElement("p")
-            fiveDayTemp.textContent = "Temp: " + dailyForecast.main.temp;
-            fiveDayTemp.classList = "card-body text-center"
-            fiveDayDiv.append(fiveDayTemp);
+      fiveDayDate = document.createElement("h4");
+      fiveDayDate.textContent =
+        forecastMonth + "/" + forecastDay + "/" + forecastYear;
+      fiveDayDate.classList = "card-header text-center";
+      fiveDayDiv.append(fiveDayDate);
 
-            var weatherIcon = document.createElement("img");
-            weatherIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + weatherPic + "@2x.png")
-            fiveDayDiv.appendChild(weatherIcon);
+      // image wont loop through
+      var weatherIcon = document.createElement("img");
+      weatherIcon.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/" + weatherPic + "@2x.png"
+      );
+      fiveDayDiv.appendChild(weatherIcon);
 
-            fiveDayWind = document.createElement("p");
-            fiveDayWind.textContent = "Wind: " + dailyForecast.wind.speed + "MPH";
-            fiveDayWind.classList = "card-body text-center"
-            fiveDayDiv.append(fiveDayWind);
+      fiveDayTemp = document.createElement("p");
+      fiveDayTemp.textContent = "Temp: " + dailyForecast.main.temp + "°F";
+      fiveDayTemp.classList = "card-body text-center";
+      fiveDayDiv.append(fiveDayTemp);
 
-            fiveDayHumidity = document.createElement("p");
-            fiveDayHumidity.textContent = "Humidity " + dailyForecast.main.humidity + "%";
-            fiveDayHumidity.classList = "card-body text-center"
-            fiveDayDiv.append(fiveDayHumidity);
+      fiveDayWind = document.createElement("p");
+      fiveDayWind.textContent = "Wind: " + dailyForecast.wind.speed + "MPH";
+      fiveDayWind.classList = "card-body text-center";
+      fiveDayDiv.append(fiveDayWind);
 
-            fiveContainer.append(fiveDayDiv);
-        };
-   }
+      fiveDayHumidity = document.createElement("p");
+      fiveDayHumidity.textContent =
+        "Humidity " + dailyForecast.main.humidity + "%";
+      fiveDayHumidity.classList = "card-body text-center";
+      fiveDayDiv.append(fiveDayHumidity);
 
-   // not sure why this function isnt working 
-   function getHistory(city) {
-   cityBtnEl = document.createElement("button");
-   cityBtnEl.textContent = city;
-   searchedCity.append(cityBtnEl);
-
+      fiveContainer.append(fiveDayDiv);
+    }
   }
+}
 
- getHistory();
+function cityButton(city) {
+  cityBtnEl = document.createElement("button");
+  cityBtnEl.textContent = city;
+  cityBtnEl.classList = "d-flex w-100 btn-light border p-2";
+  cityBtnEl.addEventListener("click", function () {
+    getCityUrl(city);
+  });
+  searchedCity.append(cityBtnEl);
+}
 
-} 
-    
+showHistory();
 
+searchBtn.addEventListener("click", formSubmitHandler);
 
-   
-   
-
-searchBtn.addEventListener("click", searchCity);
-
-clearBtn.addEventListener("click", function() {
-    localStorage.clear();
-})
-
-
+clearBtn.addEventListener("click", function () {
+  localStorage.clear();
+});
