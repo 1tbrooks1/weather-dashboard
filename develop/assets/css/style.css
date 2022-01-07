@@ -1,11 +1,19 @@
+span:hover {
+    cursor: pointer;
+    background-color: skyblue;
+}
+
 .favorable {
-    background-color: rgb(14, 231, 14);
-} 
+font-size: 16px;
+background-color: lightgreen;
+}
 
 .moderate {
-    background-color: yellow;
-} 
+font-size: 16px;
+background-color: yellow;
+}
 
 .severe {
-    background-color: red;
-} 
+font-size: 16px;
+background-color: rgb(243, 11, 11);
+}

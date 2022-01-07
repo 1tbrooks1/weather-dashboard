@@ -165,11 +165,11 @@ function displayUvIndex(index) {
 
   // if statement to give color warning for UV index
   if (index.daily[0].uvi < 2) {
-    uvEl.setAttribute("class", "bg-success text-white p-2")
+    uvEl.classList = ("favorable");
   } else if (index.daily[0].uvi < 4) {
-    uvEl.setAttribute("class","bg-warning text-black p-2");
+    uvEl.classList = ("moderate");
   } else {
-    uvEl.setAttribute("class", "bg-danger text-white p-2")
+    uvEl.classList = ("severe");
   }
 }
 
@@ -278,3 +278,6 @@ loadHistory();
 
 // event listener to start application
 searchBtn.addEventListener("click", formSubmitHandler);
+
+
+
