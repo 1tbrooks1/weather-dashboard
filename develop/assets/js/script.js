@@ -47,7 +47,7 @@ function loadHistory() {
     
     for (i=0; i < searchedCities.length; i++) {
         showHistory(searchedCities[i])
-        //cities.push(searchedCities[i]);
+        cities.push(searchedCities[i]);
     }
 }
 
@@ -55,7 +55,7 @@ function showHistory(city) {
     searchedCityContainer = document.createElement("div")
     searchedCityEl = document.createElement("button");
     searchedCityEl.textContent = city;
-    searchedCityEl.classList = "d-flex w-100 btn-light border p-2";
+    searchedCityEl.classList = "d-flex w-100 btn btn-dark border p-2";
     historyContainer.appendChild(searchedCityContainer)
     searchedCityContainer.appendChild(searchedCityEl);
 
@@ -69,12 +69,7 @@ function showHistory(city) {
 // grabbing API info from weather site
 function getCityUrl(city) {
   const apiKey = "208b86d4af1d114dc52f06c491f0fcd2";
-  let apiUrl =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    city +
-    "&units=imperial&appid=" +
-    apiKey +
-    "";
+  let apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey
 
   // sends request to sever for information
   fetch(apiUrl).then(function (response) {
