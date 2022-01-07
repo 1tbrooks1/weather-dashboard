@@ -10,7 +10,6 @@ const humidityEl = document.querySelector("#humidity");
 const uvEl = document.querySelector("#uv");
 const fiveDayContainer = document.querySelector("#five-day");
 const forecastEls = document.querySelector(".forecast");
-const clearBtn = document.querySelector(".clear");
 const searchedCity = document.querySelector(".city-button");
 const fiveContainer = document.querySelector(".five-container");
 const weatherIcon = document.querySelector(".weather-icon");
@@ -56,8 +55,14 @@ function showHistory(city) {
     searchedCityContainer = document.createElement("div")
     searchedCityEl = document.createElement("button");
     searchedCityEl.textContent = city;
-    historyContainer.append(searchedCityContainer)
-    searchedCityContainer.append(searchedCityEl);
+    searchedCityEl.classList = "d-flex w-100 btn-light border p-2";
+    historyContainer.appendChild(searchedCityContainer)
+    searchedCityContainer.appendChild(searchedCityEl);
+
+    searchedCityEl.addEventListener("click", function() {
+        getCityUrl(city);
+        getFive(city);
+    });
 }
 
 
@@ -116,8 +121,9 @@ function displayWeatherInfo(weather, city) {
   cityNameEl.appendChild(weatherIcon);
 
   tempEl.textContent = weather.main.temp;
-  windEl.textContent = weather.wind.speed;
   humidityEl.textContent = weather.main.humidity;
+  windEl.textContent = weather.wind.speed;
+  
 
   var lat = weather.coord.lat;
   var lon = weather.coord.lon;
@@ -192,9 +198,9 @@ function getFive(city) {
     fiveContainer.innerHTML = "";
     var forecast = city.list;
 
-    for (i = 0; i < forecast.length; i = i + 8) {
+    for (i = 5; i < forecast.length; i = i + 8) {
       var dailyForecast = forecast[i];
-      var weatherPic = city.list[0].weather[0].icon;
+      var weatherPic = dailyForecast.weather[0].icon;
       console.log(weatherPic);
       const forecastDate = new Date(dailyForecast.dt * 1000);
       const forecastDay = forecastDate.getDate();
@@ -253,8 +259,3 @@ function cityButton(city) {
 loadHistory();
 
 searchBtn.addEventListener("click", formSubmitHandler);
-
-clearBtn.addEventListener("click", function () {
-    historyContainer.innerHTML = "";
-  localStorage.clear();
-});

@@ -20,12 +20,11 @@
             <div class="col-lg-3">
             <h2 class="mt-1">Search for a City:</h2>
             <div class="input-group mb-3">
-            <input id="city-name" class="form-control" placeholder="Enter a city name"></input>
+            <input id="city-name" type="text" class="form-control" placeholder="Enter a city name">
             <div class="input-group-append">
-            <button class="btn btn-primary searchBtn" type="button">Search<i></i></button>
+            <button class="btn btn-primary searchBtn" type="button">Search</button>
             </div>
-            </div class="">
-            <button class="btn btn-primary mb-3 clear clear-history">Clear History</button>
+            </div>
             <div class="history-container">
             <div class="city-button"></div>
             </div>
@@ -35,11 +34,11 @@
             <div class="row mr-0">
                 <div id="city-container" class="col-lg-11 card m-3 d-none">
                     <div class="card-body">
-                        <h2 id="searched-city" class="align-middle">City</h2>
+                        <h3 id="searched-city" class="align-middle">City</h3>
                         <ul class="list-unstyled">
                             <li>Temp: <span id="temp"></span> °F</li>
-                            <li>Wind: <span id="wind"></span> MPH</li>
                             <li>Humidity: <span id="humidity"></span> %</li>
+                            <li>Wind: <span id="wind"></span> MPH</li>
                             <li>UV Index: <span id="uv"></span></li>
                         </ul>
                     </div>
