@@ -4,6 +4,9 @@ A weather application to show current and future weather
 ## Purpose
 The purpose behind this application was to give the use the ability to check the current and future weather of any city they desired.
 
+## Link
+Deployed at: https://1tbrooks1.github.io/weather-dashboard/
+
 ## Screenshot
 ![Screenshot](weather.JPG)
 
@@ -32,7 +35,7 @@ The purpose behind this application was to give the use the ability to check the
 * Booststrap
 
 ## API
-* Openweathermap
+Openweathermap
 
 ## Creator
 Tobby Brooks
